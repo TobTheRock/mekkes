@@ -1,13 +1,16 @@
 {
-  description = "macOS config — home-manager, standalone";
+  description = "macOS config — nix-darwin + home-manager";
 
   inputs = {
-    # nixpkgs must be a direct input: home-manager reads `pkgs.path`, which
-    # only resolves for a first-class input, not a `follows` into another's.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nichtsverbessert = {
       url = "github:TobTheRock/nichtsverbessert";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -17,13 +20,21 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, nichtsverbessert, ... }: {
-    homeConfigurations."tobi@mac" = home-manager.lib.homeManagerConfiguration {
-      pkgs = import nixpkgs { system = "aarch64-darwin"; };
+  outputs = { nix-darwin, home-manager, nichtsverbessert, ... }: {
+    darwinConfigurations."mac" = nix-darwin.lib.darwinSystem {
       modules = [
-        nichtsverbessert.homeModules.nvim
-        nichtsverbessert.homeModules.stylix-minimal
-        ./home.nix
+        ./darwin.nix
+        home-manager.darwinModules.home-manager
+        {
+          home-manager = {
+            useUserPackages = true;
+            users.tobi = ./home.nix;
+            sharedModules = [
+              nichtsverbessert.homeModules.nvim
+              nichtsverbessert.homeModules.stylix-minimal
+            ];
+          };
+        }
       ];
     };
   };
