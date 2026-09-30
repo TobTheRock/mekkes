@@ -1,4 +1,6 @@
 {
+  imports = [ ./aerospace.nix ];
+
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   # The Determinate installer owns the nix daemon and its config; nix-darwin
