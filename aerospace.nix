@@ -1,44 +1,44 @@
 { lib, ... }:
 
 let
-  # ponytail: 1-9 generated instead of 18 literal lines.
   workspaces = map toString (lib.range 1 9);
-  binds = prefix: cmd:
-    lib.listToAttrs (map (w: lib.nameValuePair "${prefix}${w}" "${cmd} ${w}") workspaces);
+  binds =
+    prefix: cmd: lib.listToAttrs (map (w: lib.nameValuePair "${prefix}${w}" "${cmd} ${w}") workspaces);
 in
 {
   services.aerospace = {
     enable = true;
 
-    # Hotkeys mirror the nvim config (nichtsverbessert): hjkl to move around,
-    # s/v to split, d to close.
-    #
-    # alt, not ctrl: nvim + tmux own ctrl-hjkl, aerospace would swallow them.
     settings.mode.main.binding = {
-      # navigation — C-hjkl in nvim
-      alt-h = "focus left";
-      alt-j = "focus down";
-      alt-k = "focus up";
-      alt-l = "focus right";
-
-      alt-shift-h = "move left";
-      alt-shift-j = "move down";
-      alt-shift-k = "move up";
-      alt-shift-l = "move right";
-
-      # windows — <leader>w… in nvim. :split stacks, :vsplit sits side by side.
-      alt-s = "layout tiles vertical";
-      alt-v = "layout tiles horizontal";
-      alt-shift-d = "close";
+      alt-q = "close";
+      alt-t = "layout floating tiling";
       alt-f = "fullscreen";
 
-      alt-minus = "resize smart -50";
-      alt-equal = "resize smart +50";
+      alt-left = "focus left";
+      alt-right = "focus right";
+      alt-up = "focus up";
+      alt-down = "focus down";
 
-      # workspaces — no nvim equivalent, the usual alt-N / alt-shift-N.
+      alt-shift-up = "focus-monitor prev";
+      alt-shift-down = "focus-monitor next";
+
+      alt-shift-left = "move left";
+      alt-shift-right = "move right";
+
       alt-tab = "workspace-back-and-forth";
+
+      alt-r = "mode resize";
     }
     // binds "alt-" "workspace"
     // binds "alt-shift-" "move-node-to-workspace";
+
+    settings.mode.resize.binding = {
+      left = "resize width -50";
+      right = "resize width +50";
+      up = "resize height -50";
+      down = "resize height +50";
+      enter = "mode main";
+      esc = "mode main";
+    };
   };
 }
