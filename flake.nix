@@ -18,16 +18,24 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nix-darwin, home-manager, nichtsverbessert, ... }: {
+  outputs = { nix-darwin, home-manager, nichtsverbessert, fenix, ... }: {
     darwinConfigurations."mac" = nix-darwin.lib.darwinSystem {
       modules = [
         ./darwin.nix
+        { nixpkgs.overlays = [ fenix.overlays.default ]; }
         home-manager.darwinModules.home-manager
         {
           home-manager = {
             useUserPackages = true;
+            # so home.nix sees the darwin-level overlays (fenix)
+            useGlobalPkgs = true;
             users.tobi = ./home.nix;
             sharedModules = [
               nichtsverbessert.homeModules.nvim

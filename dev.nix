@@ -5,14 +5,9 @@
     uv
     basedpyright
 
-    # rust
-    # ponytail: nixpkgs' single stable toolchain; swap in rustup or fenix when
-    # you need nightly or per-project pinning.
-    rustc
-    cargo
-    clippy
-    rustfmt
-    rust-analyzer
+    # rust — fenix overlay
+    fenix.complete.toolchain
+    rust-analyzer-nightly
 
     # c/c++
     # ponytail: no clang/gcc here — Xcode CLT owns the system compiler and SDK
