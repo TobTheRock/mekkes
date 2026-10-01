@@ -1,6 +1,7 @@
-{ lib, ... }:
+{ config, lib, ... }:
 
 let
+  ghostty = config.home-manager.users.${config.system.primaryUser}.programs.ghostty.package;
   workspaces = map toString (lib.range 1 9);
   binds =
     prefix: cmd: lib.listToAttrs (map (w: lib.nameValuePair "${prefix}${w}" "${cmd} ${w}") workspaces);
@@ -10,6 +11,8 @@ in
     enable = true;
 
     settings.mode.main.binding = {
+      # -n: always a new window, even when Ghostty is already running.
+      alt-enter = "exec-and-forget open -na ${ghostty}/Applications/Ghostty.app";
       alt-q = "close";
       alt-t = "layout floating tiling";
       alt-f = "fullscreen";
