@@ -1,5 +1,5 @@
 { config, ... }: {
-  imports = [ ./dev.nix ./ghostty.nix ./zen.nix ];
+  imports = [ ./dev.nix ./ghostty.nix ./zen.nix ./starship.nix ];
 
 
   home = {

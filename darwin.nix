@@ -44,6 +44,10 @@
     enableFzfHistory = true;
     enableFzfCompletion = true;
     enableFzfGit = true;
+    # Replaces the default `prompt suse`; config in starship.nix.
+    promptInit = ''
+      eval "$(${pkgs.starship}/bin/starship init zsh)"
+    '';
   };
 
   # ponytail: no system.defaults / homebrew yet — add the knobs you actually
