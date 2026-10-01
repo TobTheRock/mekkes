@@ -14,6 +14,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,7 +37,10 @@
             useUserPackages = true;
             # so home.nix sees the darwin-level overlays (fenix)
             useGlobalPkgs = true;
-            users.tobi = ./home.nix;
+	    users.tobiaswaurick = {
+		imports = [ ./home.nix ];
+	    };
+
             sharedModules = [
               nichtsverbessert.homeModules.nvim
               nichtsverbessert.homeModules.stylix-minimal
