@@ -1,5 +1,5 @@
 { config, pkgs, ... }: {
-  imports = [ ./aerospace.nix ];
+  imports = [ ./aerospace.nix ./zsh.nix ];
 
   nixpkgs.hostPlatform = "aarch64-darwin";
   nixpkgs.config.allowunfree=true;
@@ -29,10 +29,6 @@
     reattach = true;
   };
 
-  # zsh is configured system-wide (/etc/zshrc) — no home-manager zsh.
-  # Ctrl-R history, Tab ** completion, Ctrl-G git pickers. The scripts call
-  # `fzf`, so it must be on PATH too.
-  environment.systemPackages = [ pkgs.fzf ];
   # Where `cargo install` / `cargo binstall` put binaries.
   environment.systemPath = [ "${config.users.users.tobiaswaurick.home}/.cargo/bin" ];
   # Docker Desktop's socket lives in the home dir; /var/run/docker.sock only
@@ -40,15 +36,6 @@
   # that skip docker contexts (testcontainers, bollard) read DOCKER_HOST.
   environment.variables.DOCKER_HOST =
     "unix://${config.users.users.tobiaswaurick.home}/.docker/run/docker.sock";
-  programs.zsh = {
-    enableFzfHistory = true;
-    enableFzfCompletion = true;
-    enableFzfGit = true;
-    # Replaces the default `prompt suse`; config in starship.nix.
-    promptInit = ''
-      eval "$(${pkgs.starship}/bin/starship init zsh)"
-    '';
-  };
 
   # ponytail: no system.defaults / homebrew yet — add the knobs you actually
   # change by hand (dock, finder, keyboard) instead of a speculative block.
