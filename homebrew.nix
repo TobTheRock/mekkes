@@ -13,6 +13,7 @@
       # `onedrive` cask conflicts with this one).
       "microsoft-office"
       "microsoft-teams"
+      "linear"
     ];
   };
 }
