@@ -1,5 +1,5 @@
 { config, ... }: {
-  imports = [ ./dev.nix ];
+  imports = [ ./dev.nix ./ghostty.nix ];
 
 
   home = {

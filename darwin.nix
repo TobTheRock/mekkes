@@ -1,4 +1,4 @@
-{
+{ pkgs, ... }: {
   imports = [ ./aerospace.nix ];
 
   nixpkgs.hostPlatform = "aarch64-darwin";
@@ -14,6 +14,13 @@
 
   # home-manager reads homeDirectory from here; nix-darwin's default is /var/empty.
   users.users.tobiaswaurick.home = "/Users/tobiaswaurick";
+
+  # System-wide so every app (not just home-manager ones) sees them.
+  fonts.packages = with pkgs.nerd-fonts; [
+    jetbrains-mono
+    fira-code
+    symbols-only
+  ];
 
   # ponytail: no system.defaults / homebrew yet — add the knobs you actually
   # change by hand (dock, finder, keyboard) instead of a speculative block.
