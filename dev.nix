@@ -19,6 +19,6 @@
     pnpm
     
     # AI
-#    claude-code
+    claude-code
   ];
 }

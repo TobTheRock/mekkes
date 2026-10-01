@@ -14,7 +14,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,28 +25,37 @@
     };
   };
 
-  outputs = { nix-darwin, home-manager, nichtsverbessert, fenix, ... }: {
-    darwinConfigurations."mac" = nix-darwin.lib.darwinSystem {
-      modules = [
-        ./darwin.nix
-        { nixpkgs.overlays = [ fenix.overlays.default ]; }
-        home-manager.darwinModules.home-manager
-        {
-          home-manager = {
-            useUserPackages = true;
-            # so home.nix sees the darwin-level overlays (fenix)
-            useGlobalPkgs = true;
-	    users.tobiaswaurick = {
-		imports = [ ./home.nix ];
-	    };
+  outputs =
+    {
+      nix-darwin,
+      home-manager,
+      nichtsverbessert,
+      fenix,
+      ...
+    }:
+    {
+      darwinConfigurations."mac" = nix-darwin.lib.darwinSystem {
+        modules = [
+          ./darwin.nix
+          { nixpkgs.overlays = [ fenix.overlays.default ]; }
+          home-manager.darwinModules.home-manager
+          {
+            nixpkgs.config.allowUnfree = true;
+            home-manager = {
+              useUserPackages = true;
+              # so home.nix sees the darwin-level overlays (fenix)
+              useGlobalPkgs = true;
+              users.tobiaswaurick = {
+                imports = [ ./home.nix ];
+              };
 
-            sharedModules = [
-              nichtsverbessert.homeModules.nvim
-              nichtsverbessert.homeModules.stylix-minimal
-            ];
-          };
-        }
-      ];
+              sharedModules = [
+                nichtsverbessert.homeModules.nvim
+                nichtsverbessert.homeModules.stylix-minimal
+              ];
+            };
+          }
+        ];
+      };
     };
-  };
 }
