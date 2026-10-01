@@ -14,6 +14,7 @@
       "microsoft-office"
       "microsoft-teams"
       "linear"
+      "docker-desktop" # engine + docker compose
       "zen" # configured in zen.nix
     ];
   };
