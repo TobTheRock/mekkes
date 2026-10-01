@@ -28,10 +28,12 @@
   ];
 
   # Run `gh auth login` once; the credential helper replaces `gh auth setup-git`
-  # (HTTPS clones of private repos, e.g. uv git deps).
+  # (HTTPS clones of private repos, e.g. uv git deps). config.yml is
+  # Nix-managed and read-only, so `gh config set` fails — set options here.
   programs.gh = {
     enable = true;
     gitCredentialHelper.enable = true;
+    settings.git_protocol = "ssh";
   };
 
   programs.git = {
