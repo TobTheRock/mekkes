@@ -21,4 +21,12 @@
     # AI
     claude-code
   ];
+
+  programs.git = {
+    enable = true;
+    settings.user = {
+      name = "Tobias Waurick";
+      email = "tobias.waurick@xneural.ai";
+    };
+  };
 }
