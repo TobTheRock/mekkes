@@ -22,6 +22,13 @@
     symbols-only
   ];
 
+  # sudo via Touch ID. Goes into /etc/pam.d/sudo_local, which survives macOS
+  # updates. reattach makes it work inside tmux too.
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    reattach = true;
+  };
+
   # ponytail: no system.defaults / homebrew yet — add the knobs you actually
   # change by hand (dock, finder, keyboard) instead of a speculative block.
 }
