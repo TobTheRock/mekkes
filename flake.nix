@@ -26,6 +26,14 @@
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
   };
 
   outputs =
@@ -35,6 +43,7 @@
       nichtsverbessert,
       fenix,
       nix-homebrew,
+      zen-browser,
       ...
     }:
     {
@@ -58,6 +67,7 @@
               sharedModules = [
                 nichtsverbessert.homeModules.nvim
                 nichtsverbessert.homeModules.stylix-minimal
+                zen-browser.homeModules.beta
               ];
             };
           }
