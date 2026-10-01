@@ -19,6 +19,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Installs Homebrew itself; nix-darwin's homebrew module only drives it.
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,12 +34,15 @@
       home-manager,
       nichtsverbessert,
       fenix,
+      nix-homebrew,
       ...
     }:
     {
       darwinConfigurations."mac" = nix-darwin.lib.darwinSystem {
         modules = [
           ./darwin.nix
+          ./homebrew.nix
+          nix-homebrew.darwinModules.nix-homebrew
           { nixpkgs.overlays = [ fenix.overlays.default ]; }
           home-manager.darwinModules.home-manager
           {
