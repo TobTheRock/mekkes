@@ -35,6 +35,11 @@
   environment.systemPackages = [ pkgs.fzf ];
   # Where `cargo install` / `cargo binstall` put binaries.
   environment.systemPath = [ "${config.users.users.tobiaswaurick.home}/.cargo/bin" ];
+  # Docker Desktop's socket lives in the home dir; /var/run/docker.sock only
+  # exists if "Allow the default Docker socket" is ticked (needs admin). Tools
+  # that skip docker contexts (testcontainers, bollard) read DOCKER_HOST.
+  environment.variables.DOCKER_HOST =
+    "unix://${config.users.users.tobiaswaurick.home}/.docker/run/docker.sock";
   programs.zsh = {
     enableFzfHistory = true;
     enableFzfCompletion = true;
