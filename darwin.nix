@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }: {
   imports = [ ./aerospace.nix ];
 
   nixpkgs.hostPlatform = "aarch64-darwin";
@@ -27,6 +27,18 @@
   security.pam.services.sudo_local = {
     touchIdAuth = true;
     reattach = true;
+  };
+
+  # zsh is configured system-wide (/etc/zshrc) — no home-manager zsh.
+  # Ctrl-R history, Tab ** completion, Ctrl-G git pickers. The scripts call
+  # `fzf`, so it must be on PATH too.
+  environment.systemPackages = [ pkgs.fzf ];
+  # Where `cargo install` / `cargo binstall` put binaries.
+  environment.systemPath = [ "${config.users.users.tobiaswaurick.home}/.cargo/bin" ];
+  programs.zsh = {
+    enableFzfHistory = true;
+    enableFzfCompletion = true;
+    enableFzfGit = true;
   };
 
   # ponytail: no system.defaults / homebrew yet — add the knobs you actually

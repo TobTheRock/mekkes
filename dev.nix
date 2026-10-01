@@ -6,6 +6,8 @@
 
     # rust — fenix overlay
     fenix.complete.toolchain
+    cargo-binstall # prebuilt crate binaries → ~/.cargo/bin
+    cargo-nextest
 
     # c/c++
     # ponytail: no clang/gcc here — Xcode CLT owns the system compiler and SDK
