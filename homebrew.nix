@@ -14,6 +14,7 @@
       "microsoft-office"
       "microsoft-teams"
       "linear"
+      "zen" # configured in zen.nix
     ];
   };
 }
