@@ -1,4 +1,4 @@
-{ ... }: {
+{ lib, ... }: {
   programs.zen-browser = {
     enable = true;
     # The app itself is the `zen` cask (homebrew.nix), so it lands in
@@ -29,6 +29,20 @@
     profiles.default = {
       id = 0;
       isDefault = true;
+    };
+  };
+
+  # Zen picks a profile per install location, keyed by a hash of the app path
+  # (/Applications/Zen.app here). Without this it creates and locks its own
+  # "Default (release)" profile and ignores the Nix-managed one. Read the hash
+  # from installs.ini if the app ever moves.
+  home.file."Library/Application Support/Zen/installs.ini" = {
+    force = true;
+    text = lib.generators.toINI { } {
+      "6ED35B3CA1B5D3AF" = {
+        Default = "Profiles/default";
+        Locked = 1;
+      };
     };
   };
 
