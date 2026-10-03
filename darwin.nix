@@ -37,6 +37,7 @@
   environment.variables.DOCKER_HOST =
     "unix://${config.users.users.tobiaswaurick.home}/.docker/run/docker.sock";
 
-  # ponytail: no system.defaults / homebrew yet — add the knobs you actually
-  # change by hand (dock, finder, keyboard) instead of a speculative block.
+  # ponytail: only the knobs actually changed by hand (dock, finder, keyboard)
+  # go here, not a speculative block.
+  system.defaults.dock.orientation = "left";
 }
