@@ -1,5 +1,5 @@
 { config, pkgs, ... }: {
-  imports = [ ./aerospace.nix ./zsh.nix ];
+  imports = [ ./yabai.nix ./zsh.nix ];
 
   nixpkgs.hostPlatform = "aarch64-darwin";
   nixpkgs.config.allowunfree=true;
